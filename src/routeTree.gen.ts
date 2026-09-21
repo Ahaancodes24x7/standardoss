@@ -18,9 +18,13 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthenticatedAnalyzeRouteImport } from './routes/_authenticated/analyze'
+import { Route as AuthenticatedComplianceRouteImport } from './routes/_authenticated/compliance'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
+import { Route as AuthenticatedStandardsRouteImport } from './routes/_authenticated/standards'
 import { Route as StandardIdRouteImport } from './routes/standard.$id'
 import { Route as AuthenticatedAnalyzeRouteImport } from './routes/_authenticated/analyze.'
+import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents.'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -66,9 +70,24 @@ const AuthenticatedAnalyzeRoute = AuthenticatedAnalyzeRouteImport.update({
   path: '/analyze',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedComplianceRoute = AuthenticatedComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStandardsRoute = AuthenticatedStandardsRouteImport.update({
+  id: '/standards',
+  path: '/standards',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const StandardIdRoute = StandardIdRouteImport.update({
@@ -81,6 +100,11 @@ const AuthenticatedAnalyzeRoute = AuthenticatedAnalyzeRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAnalyzeRoute,
 } as any)
+const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedDocumentsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,9 +115,13 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
+  '/compliance': typeof AuthenticatedComplianceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/documents': typeof AuthenticatedDocumentsRouteWithChildren
+  '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/analyze/': typeof AuthenticatedAnalyzeRoute
+  '/documents/': typeof AuthenticatedDocumentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -103,9 +131,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
+  '/compliance': typeof AuthenticatedComplianceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/analyze': typeof AuthenticatedAnalyzeRoute
+  '/documents': typeof AuthenticatedDocumentsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -118,9 +149,13 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/_authenticated/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
+  '/_authenticated/compliance': typeof AuthenticatedComplianceRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/documents': typeof AuthenticatedDocumentsRouteWithChildren
+  '/_authenticated/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/_authenticated/analyze/': typeof AuthenticatedAnalyzeRoute
+  '/_authenticated/documents/': typeof AuthenticatedDocumentsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,9 +168,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/signup'
     | '/analyze'
+    | '/compliance'
     | '/dashboard'
+    | '/documents'
+    | '/standards'
     | '/standard/$id'
     | '/analyze/'
+    | '/documents/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -145,9 +184,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/search'
     | '/signup'
+    | '/compliance'
     | '/dashboard'
+    | '/standards'
     | '/standard/$id'
     | '/analyze'
+    | '/documents'
   id:
     | '__root__'
     | '/'
@@ -159,9 +201,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/signup'
     | '/_authenticated/analyze'
+    | '/_authenticated/compliance'
     | '/_authenticated/dashboard'
+    | '/_authenticated/documents'
+    | '/_authenticated/standards'
     | '/standard/$id'
     | '/_authenticated/analyze/'
+    | '/_authenticated/documents/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -241,11 +287,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyzeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/compliance': {
+      id: '/_authenticated/compliance'
+      path: '/compliance'
+      fullPath: '/compliance'
+      preLoaderRoute: typeof AuthenticatedComplianceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/documents': {
+      id: '/_authenticated/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/standards': {
+      id: '/_authenticated/standards'
+      path: '/standards'
+      fullPath: '/standards'
+      preLoaderRoute: typeof AuthenticatedStandardsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/standard/$id': {
@@ -262,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyzeRouteImport
       parentRoute: typeof AuthenticatedAnalyzeRoute
     }
+    '/_authenticated/documents/': {
+      id: '/_authenticated/documents/'
+      path: '/'
+      fullPath: '/documents/'
+      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedDocumentsRoute
+    }
   }
 }
 
@@ -276,14 +350,34 @@ const AuthenticatedAnalyzeRouteChildren: AuthenticatedAnalyzeRouteChildren = {
 const AuthenticatedAnalyzeRouteWithChildren =
   AuthenticatedAnalyzeRoute._addFileChildren(AuthenticatedAnalyzeRouteChildren)
 
+interface AuthenticatedDocumentsRouteChildren {
+  AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
+}
+
+const AuthenticatedDocumentsRouteChildren: AuthenticatedDocumentsRouteChildren =
+  {
+    AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
+  }
+
+const AuthenticatedDocumentsRouteWithChildren =
+  AuthenticatedDocumentsRoute._addFileChildren(
+    AuthenticatedDocumentsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyzeRoute: typeof AuthenticatedAnalyzeRouteWithChildren
+  AuthenticatedComplianceRoute: typeof AuthenticatedComplianceRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRouteWithChildren
+  AuthenticatedStandardsRoute: typeof AuthenticatedStandardsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyzeRoute: AuthenticatedAnalyzeRouteWithChildren,
+  AuthenticatedComplianceRoute: AuthenticatedComplianceRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDocumentsRoute: AuthenticatedDocumentsRouteWithChildren,
+  AuthenticatedStandardsRoute: AuthenticatedStandardsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
