@@ -71,10 +71,17 @@ export const standards: Standard[] = [
   },
 ];
 
+const makeResult = (standardId: string, confidenceScore: number, explanation: string): SearchResult => {
+  const standard = standards.find((item) => item.id === standardId);
+  const matchedClause = standard?.clauses[0];
+  if (!standard || !matchedClause) throw new Error(`Missing demonstration standard: ${standardId}`);
+  return { standard, matchedClause, confidenceScore, explanation };
+};
+
 export const searchResults: SearchResult[] = [
-  { standard: standards[0], matchedClause: standards[0].clauses[0], confidenceScore: 96, explanation: "The tender asks for low-voltage building wiring with circuit-level overload protection. This clause directly governs protective-device selection for those conductors." },
-  { standard: standards[1], matchedClause: standards[1].clauses[0], confidenceScore: 91, explanation: "The requirement for a continuous protective earth maps to the standard’s earth-continuity and fault-current provisions." },
-  { standard: standards[2], matchedClause: standards[2].clauses[0], confidenceScore: 84, explanation: "The specified 1.1 kV PVC cable falls within this product standard’s voltage and conductor-resistance scope." },
+  makeResult("is-732-2019", 96, "The tender asks for low-voltage building wiring with circuit-level overload protection. This clause directly governs protective-device selection for those conductors."),
+  makeResult("is-3043-2018", 91, "The requirement for a continuous protective earth maps to the standard’s earth-continuity and fault-current provisions."),
+  makeResult("is-694-2010", 84, "The specified 1.1 kV PVC cable falls within this product standard’s voltage and conductor-resistance scope."),
 ];
 
 export const getStandard = (id: string) => standards.find((standard) => standard.id === id);
