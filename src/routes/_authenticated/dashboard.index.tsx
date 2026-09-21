@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { DashboardIndex } from "./dashboard";
+export const Route=createFileRoute("/_authenticated/dashboard/")({head:()=>({meta:[{title:"Workspace Overview — STANDARDOS"},{name:"description",content:"Procurement specification readiness and recent analysis activity."},{property:"og:title",content:"Workspace Overview — STANDARDOS"},{property:"og:description",content:"Review procurement specifications and compliance readiness."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:DashboardIndex});
