@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-sans: "Source Sans 3", ui-sans-serif, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,26 +64,26 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 0.35rem;
+  --background: oklch(0.965 0.013 83);
+  --foreground: oklch(0.25 0.025 245);
+  --card: oklch(0.99 0.008 85 / 82%);
+  --card-foreground: oklch(0.25 0.025 245);
+  --popover: oklch(0.99 0.008 85 / 94%);
+  --popover-foreground: oklch(0.25 0.025 245);
+  --primary: oklch(0.25 0.055 246);
+  --primary-foreground: oklch(0.985 0.006 86);
+  --secondary: oklch(0.91 0.022 81);
+  --secondary-foreground: oklch(0.25 0.055 246);
+  --muted: oklch(0.925 0.016 82);
+  --muted-foreground: oklch(0.48 0.027 248);
+  --accent: oklch(0.85 0.05 79);
+  --accent-foreground: oklch(0.40 0.075 154);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.72 0.025 78 / 45%);
+  --input: oklch(0.68 0.025 78 / 55%);
+  --ring: oklch(0.48 0.075 154);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +142,35 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    background-image: radial-gradient(circle at 12% 10%, color-mix(in oklab, var(--accent) 23%, transparent), transparent 31%), linear-gradient(135deg, color-mix(in oklab, var(--background) 95%, white), color-mix(in oklab, var(--secondary) 55%, var(--background)));
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+  html { scroll-behavior: smooth; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+}
+
+@utility glass-panel {
+  border: 1px solid color-mix(in oklab, var(--border) 78%, white);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--card) 84%, transparent);
+  box-shadow: 0 18px 50px -32px color-mix(in oklab, var(--primary) 34%, transparent);
+  backdrop-filter: blur(18px) saturate(125%);
+}
+@utility card-lift { transition: transform 300ms ease, box-shadow 300ms ease, background-color 300ms ease; &:hover { transform: translateY(-3px); box-shadow: 0 24px 58px -30px color-mix(in oklab, var(--primary) 42%, transparent); background: color-mix(in oklab, var(--card) 94%, white); } }
+@utility page-wrap { width: min(100% - 2rem, 80rem); margin-inline: auto; }
+@utility eyebrow { font-size: .72rem; line-height: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--accent-foreground); }
+@utility citation { border-left: 3px solid var(--accent-foreground); background: color-mix(in oklab, var(--accent) 42%, transparent); padding: 1rem; }
+@utility explanation { border-top: 1px solid var(--border); padding-top: 1rem; }
+@utility nav-link { border-radius: var(--radius); padding: .45rem .75rem; font-size: .875rem; font-weight: 600; color: var(--muted-foreground); transition: all 200ms ease; &:hover { background: var(--accent); color: var(--primary); } }
+@utility nav-link-active { background: var(--accent); color: var(--primary); }
+@utility mobile-nav { padding: .7rem .8rem; font-weight: 600; color: var(--muted-foreground); }
+@utility mobile-nav-active { background: var(--accent); color: var(--primary); }
+@utility ruled-bg { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, color-mix(in oklab, var(--border) 35%, transparent) 32px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { animation: reveal .65s ease both; }
   }
 }
