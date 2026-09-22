@@ -18,9 +18,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthenticatedAnalyzeRouteImport } from './routes/_authenticated/analyze'
+import { Route as AuthenticatedChangesRouteImport } from './routes/_authenticated/changes'
 import { Route as AuthenticatedComplianceRouteImport } from './routes/_authenticated/compliance'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedStandardsRouteImport } from './routes/_authenticated/standards'
 import { Route as StandardIdRouteImport } from './routes/standard.$id'
 import { Route as AuthenticatedAnalyzeDocumentIdRouteImport } from './routes/_authenticated/analyze.$documentId'
@@ -70,6 +72,11 @@ const AuthenticatedAnalyzeRoute = AuthenticatedAnalyzeRouteImport.update({
   path: '/analyze',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChangesRoute = AuthenticatedChangesRouteImport.update({
+  id: '/changes',
+  path: '/changes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedComplianceRoute = AuthenticatedComplianceRouteImport.update({
   id: '/compliance',
   path: '/compliance',
@@ -83,6 +90,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
 const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedStandardsRoute = AuthenticatedStandardsRouteImport.update({
@@ -117,9 +129,11 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
+  '/changes': typeof AuthenticatedChangesRoute
   '/compliance': typeof AuthenticatedComplianceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/documents': typeof AuthenticatedDocumentsRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRoute
   '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
@@ -134,9 +148,11 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
+  '/changes': typeof AuthenticatedChangesRoute
   '/compliance': typeof AuthenticatedComplianceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/documents': typeof AuthenticatedDocumentsRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRoute
   '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
@@ -153,9 +169,11 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/_authenticated/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
+  '/_authenticated/changes': typeof AuthenticatedChangesRoute
   '/_authenticated/compliance': typeof AuthenticatedComplianceRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/documents': typeof AuthenticatedDocumentsRouteWithChildren
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
   '/_authenticated/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
@@ -172,9 +190,11 @@ export interface FileRouteTypes {
     | '/search'
     | '/signup'
     | '/analyze'
+    | '/changes'
     | '/compliance'
     | '/dashboard'
     | '/documents'
+    | '/settings'
     | '/standards'
     | '/standard/$id'
     | '/analyze/$documentId'
@@ -189,9 +209,11 @@ export interface FileRouteTypes {
     | '/search'
     | '/signup'
     | '/analyze'
+    | '/changes'
     | '/compliance'
     | '/dashboard'
     | '/documents'
+    | '/settings'
     | '/standards'
     | '/standard/$id'
     | '/analyze/$documentId'
@@ -207,9 +229,11 @@ export interface FileRouteTypes {
     | '/search'
     | '/signup'
     | '/_authenticated/analyze'
+    | '/_authenticated/changes'
     | '/_authenticated/compliance'
     | '/_authenticated/dashboard'
     | '/_authenticated/documents'
+    | '/_authenticated/settings'
     | '/_authenticated/standards'
     | '/standard/$id'
     | '/_authenticated/analyze/$documentId'
@@ -293,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyzeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/changes': {
+      id: '/_authenticated/changes'
+      path: '/changes'
+      fullPath: '/changes'
+      preLoaderRoute: typeof AuthenticatedChangesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/compliance': {
       id: '/_authenticated/compliance'
       path: '/compliance'
@@ -312,6 +343,13 @@ declare module '@tanstack/react-router' {
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/standards': {
@@ -373,17 +411,21 @@ const AuthenticatedDocumentsRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyzeRoute: typeof AuthenticatedAnalyzeRouteWithChildren
+  AuthenticatedChangesRoute: typeof AuthenticatedChangesRoute
   AuthenticatedComplianceRoute: typeof AuthenticatedComplianceRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRouteWithChildren
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStandardsRoute: typeof AuthenticatedStandardsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyzeRoute: AuthenticatedAnalyzeRouteWithChildren,
+  AuthenticatedChangesRoute: AuthenticatedChangesRoute,
   AuthenticatedComplianceRoute: AuthenticatedComplianceRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDocumentsRoute: AuthenticatedDocumentsRouteWithChildren,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStandardsRoute: AuthenticatedStandardsRoute,
 }
 
