@@ -23,8 +23,8 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
 import { Route as AuthenticatedStandardsRouteImport } from './routes/_authenticated/standards'
 import { Route as StandardIdRouteImport } from './routes/standard.$id'
-import { Route as AuthenticatedAnalyzeRouteImport } from './routes/_authenticated/analyze.'
-import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents.'
+import { Route as AuthenticatedAnalyzeDocumentIdRouteImport } from './routes/_authenticated/analyze.$documentId'
+import { Route as AuthenticatedDocumentsDocumentIdRouteImport } from './routes/_authenticated/documents.$documentId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -95,16 +95,18 @@ const StandardIdRoute = StandardIdRouteImport.update({
   path: '/standard/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAnalyzeRoute = AuthenticatedAnalyzeRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedAnalyzeRoute,
-} as any)
-const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedDocumentsRoute,
-} as any)
+const AuthenticatedAnalyzeDocumentIdRoute =
+  AuthenticatedAnalyzeDocumentIdRouteImport.update({
+    id: '/$documentId',
+    path: '/$documentId',
+    getParentRoute: () => AuthenticatedAnalyzeRoute,
+  } as any)
+const AuthenticatedDocumentsDocumentIdRoute =
+  AuthenticatedDocumentsDocumentIdRouteImport.update({
+    id: '/$documentId',
+    path: '/$documentId',
+    getParentRoute: () => AuthenticatedDocumentsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -120,8 +122,8 @@ export interface FileRoutesByFullPath {
   '/documents': typeof AuthenticatedDocumentsRouteWithChildren
   '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
-  '/analyze/': typeof AuthenticatedAnalyzeRoute
-  '/documents/': typeof AuthenticatedDocumentsRoute
+  '/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
+  '/documents/$documentId': typeof AuthenticatedDocumentsDocumentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,12 +133,14 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
+  '/analyze': typeof AuthenticatedAnalyzeRouteWithChildren
   '/compliance': typeof AuthenticatedComplianceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/documents': typeof AuthenticatedDocumentsRouteWithChildren
   '/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
-  '/analyze': typeof AuthenticatedAnalyzeRoute
-  '/documents': typeof AuthenticatedDocumentsRoute
+  '/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
+  '/documents/$documentId': typeof AuthenticatedDocumentsDocumentIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,8 +158,8 @@ export interface FileRoutesById {
   '/_authenticated/documents': typeof AuthenticatedDocumentsRouteWithChildren
   '/_authenticated/standards': typeof AuthenticatedStandardsRoute
   '/standard/$id': typeof StandardIdRoute
-  '/_authenticated/analyze/': typeof AuthenticatedAnalyzeRoute
-  '/_authenticated/documents/': typeof AuthenticatedDocumentsRoute
+  '/_authenticated/analyze/$documentId': typeof AuthenticatedAnalyzeDocumentIdRoute
+  '/_authenticated/documents/$documentId': typeof AuthenticatedDocumentsDocumentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -173,8 +177,8 @@ export interface FileRouteTypes {
     | '/documents'
     | '/standards'
     | '/standard/$id'
-    | '/analyze/'
-    | '/documents/'
+    | '/analyze/$documentId'
+    | '/documents/$documentId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -184,12 +188,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/search'
     | '/signup'
+    | '/analyze'
     | '/compliance'
     | '/dashboard'
+    | '/documents'
     | '/standards'
     | '/standard/$id'
-    | '/analyze'
-    | '/documents'
+    | '/analyze/$documentId'
+    | '/documents/$documentId'
   id:
     | '__root__'
     | '/'
@@ -206,8 +212,8 @@ export interface FileRouteTypes {
     | '/_authenticated/documents'
     | '/_authenticated/standards'
     | '/standard/$id'
-    | '/_authenticated/analyze/'
-    | '/_authenticated/documents/'
+    | '/_authenticated/analyze/$documentId'
+    | '/_authenticated/documents/$documentId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -322,41 +328,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StandardIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/analyze/': {
-      id: '/_authenticated/analyze/'
-      path: '/'
-      fullPath: '/analyze/'
-      preLoaderRoute: typeof AuthenticatedAnalyzeRouteImport
+    '/_authenticated/analyze/$documentId': {
+      id: '/_authenticated/analyze/$documentId'
+      path: '/$documentId'
+      fullPath: '/analyze/$documentId'
+      preLoaderRoute: typeof AuthenticatedAnalyzeDocumentIdRouteImport
       parentRoute: typeof AuthenticatedAnalyzeRoute
     }
-    '/_authenticated/documents/': {
-      id: '/_authenticated/documents/'
-      path: '/'
-      fullPath: '/documents/'
-      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+    '/_authenticated/documents/$documentId': {
+      id: '/_authenticated/documents/$documentId'
+      path: '/$documentId'
+      fullPath: '/documents/$documentId'
+      preLoaderRoute: typeof AuthenticatedDocumentsDocumentIdRouteImport
       parentRoute: typeof AuthenticatedDocumentsRoute
     }
   }
 }
 
 interface AuthenticatedAnalyzeRouteChildren {
-  AuthenticatedAnalyzeRoute: typeof AuthenticatedAnalyzeRoute
+  AuthenticatedAnalyzeDocumentIdRoute: typeof AuthenticatedAnalyzeDocumentIdRoute
 }
 
 const AuthenticatedAnalyzeRouteChildren: AuthenticatedAnalyzeRouteChildren = {
-  AuthenticatedAnalyzeRoute: AuthenticatedAnalyzeRoute,
+  AuthenticatedAnalyzeDocumentIdRoute: AuthenticatedAnalyzeDocumentIdRoute,
 }
 
 const AuthenticatedAnalyzeRouteWithChildren =
   AuthenticatedAnalyzeRoute._addFileChildren(AuthenticatedAnalyzeRouteChildren)
 
 interface AuthenticatedDocumentsRouteChildren {
-  AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
+  AuthenticatedDocumentsDocumentIdRoute: typeof AuthenticatedDocumentsDocumentIdRoute
 }
 
 const AuthenticatedDocumentsRouteChildren: AuthenticatedDocumentsRouteChildren =
   {
-    AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
+    AuthenticatedDocumentsDocumentIdRoute:
+      AuthenticatedDocumentsDocumentIdRoute,
   }
 
 const AuthenticatedDocumentsRouteWithChildren =
